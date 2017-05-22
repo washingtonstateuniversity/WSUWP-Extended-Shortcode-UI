@@ -22,4 +22,5 @@ add_action( 'plugins_loaded', 'WSU\Shortcode_UI\bootstrap' );
  * @since 0.0.1
  */
 function bootstrap() {
+	include_once( __DIR__ . '/includes/image-shortcake.php' );
 }
