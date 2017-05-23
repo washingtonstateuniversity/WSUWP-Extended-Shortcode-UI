@@ -12,7 +12,9 @@ cache:
 # Set the default environment.
 env:
   global:
-    - WSU_GRUNT=1
+    - WP_TRAVISCI=travis:phpunit
+    - WP_VERSION=latest
+    - WP_MULTISITE=1
 
 notifications:
   email:
@@ -34,26 +36,40 @@ branches:
 matrix:
   include:
     - php: 7.1
+      env: WP_VERSION=nightly
     - php: 7.0
+      env: WP_VERSION=latest
     - php: 5.6
+      env: WP_TRAVISCI=phpcs
 
 before_script:
-    - phpenv config-rm xdebug.ini
-    - composer config --list --global
-    - export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
-    - |
-      if [[ "$WSU_GRUNT" == 1 ]]; then
-        composer install
-        nvm install stable
-        npm install -g grunt-cli
-        npm install
-        npm prune
-        npm --version
-        node --version
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    if [[ ! -z "$WP_VERSION" ]] ; then
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
+        composer global require "phpunit/phpunit=4.8.*"
+      else
+        composer global require "phpunit/phpunit=5.7.*"
       fi
-    - phpenv versions
-    - php --version
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      composer global require wp-coding-standards/wpcs
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+    fi
+  - mysql --version
+  - phpenv versions
+  - php --version
 
 script:
-    - grunt --version
-    - grunt
+  - |
+    if [[ ! -z "$WP_VERSION" ]] ; then
+      phpunit --version
+      phpunit
+      WP_MULTISITE=1 phpunit
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
+    fi
