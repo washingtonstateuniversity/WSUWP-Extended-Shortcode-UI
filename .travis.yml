@@ -14,7 +14,7 @@ env:
   global:
     - WP_TRAVISCI=travis:phpunit
     - WP_VERSION=latest
-    - WP_MULTISITE=1
+    - WP_MULTISITE=0
 
 notifications:
   email:
