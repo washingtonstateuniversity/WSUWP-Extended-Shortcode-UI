@@ -9,13 +9,6 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-# Set the default environment.
-env:
-  global:
-    - WP_TRAVISCI=travis:phpunit
-    - WP_VERSION=latest
-    - WP_MULTISITE=0
-
 notifications:
   email:
     on_success: never
