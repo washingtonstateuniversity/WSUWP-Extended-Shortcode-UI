@@ -20,7 +20,7 @@ function filter_shortcodes() {
 		// 'Shortcake_Bakery\Shortcodes\Facebook',
 		'Shortcake_Bakery\Shortcodes\Flickr',
 		'Shortcake_Bakery\Shortcodes\Giphy',
-		'Shortcake_Bakery\Shortcodes\GoogleDocs',
+		// 'Shortcake_Bakery\Shortcodes\GoogleDocs',
 		// 'Shortcake_Bakery\Shortcodes\Guardian',
 		// 'Shortcake_Bakery\Shortcodes\Iframe',
 		'Shortcake_Bakery\Shortcodes\Image_Comparison',
