@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSUWP Extended Shortcode UI
-Version: 0.0.1
+Version: 0.0.2
 Description: Extends the Shortcode UI plugin.
 Author: washingtonstateuniversity, jeremyfelt
 Author URI: https://web.wsu.edu/
